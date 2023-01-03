@@ -1,14 +1,14 @@
-# bibliotecas necessarias
 from datetime import datetime
-from selenium import webdriver  
-from selenium.webdriver.common.keys import Keys
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.keys import Keys
 import time
 from datetime import datetime
 
-driver = webdriver.Chrome(ChromeDriverManager().install()) #abrir o chrome
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install())) #abrir o chrome
 driver.get('https://web.whatsapp.com/')  #abre o link
-time.sleep(120)  #tempo de espera
+time.sleep(10)  #tempo de espera
 
 contatos = ['✅HMbets Kayan Isac✅',
             '✅HMbets Kayan K2✅',
@@ -37,6 +37,7 @@ contatos = ['✅HMbets Kayan Isac✅',
             '✅HMbets Marpal Dayvis✅',
             '✅HMbets HRR Germano✅',
             '✅HMbets RG Lucas Salomao✅',
+            '✅HMbets HT Renan Grassi✅',
             '✅HMbets Pedro Cruz✅',
             '✅HMbets HRR Arthur Barr.✅',
             '✅HMbets Gladyson✅',
@@ -89,6 +90,7 @@ contatos = ['✅HMbets Kayan Isac✅',
             '✅HMbets Daniel Landim✅',
             '✅HMbets Parceria HM/DM✅',
             '✅HMbets HRR Gabriel Lobo✅',
+            '✅HMbets Pedro Luiz A.B✅',
             '✅HMbets Wendell Rocha✅',
             '✅HMbets Henriquin Porco✅',
             '✅HMbets Kayan Rodrigo✅',
@@ -214,15 +216,6 @@ contatos = ['✅HMbets Kayan Isac✅',
             '✅HMbets Kayan Vambasther✅',
             '✅HMbets CG Carlos Feio✅',
             '✅HMbets Vini Zaranza✅',
-            '✅HMbets Vitor Forte✅',
-            '✅HMbets HRR Waldemar✅',
-            '✅HMbets RG Rafael Cef ✅',
-            '✅HMbets Davi Fernandes✅',
-            '✅HMbets Diguim✅',
-            '✅HMbets Felipe F✅',
-            '✅HMbets RC Aiub ✅',
-            '✅HMbets Kayan Ulisses✅',
-            '✅HMbets Kayan Japa✅',
             'HMbets Vinicios Cardoso',
             'HMbets Rodrigo Viana',
             'HMbets Arthur Leite',
@@ -266,38 +259,40 @@ contatos = ['✅HMbets Kayan Isac✅',
 
 dia = datetime.today().strftime('%d-%m-%Y')
 
-mensagem = 'JOGOS DO DIA ' + dia
+mensagem = 'Oi, testando bot'
 
-midia = "C:/Users/HM bets/Desktop/HM/imagem/JOGOS.pdf"
-midia1 = "/Users/helmutiarley/Desktop/HM/imagem/2.jpeg"
+# midia = "C:/Users/HM bets/Desktop/HM/imagem/JOGOS.pdf"
+# midia1 = "/Users/helmutiarley/Desktop/HM/imagem/2.jpeg"
 
 def buscar_contato(contato):
-    campo_pesquisa = driver.find_element_by_xpath(
+    campo_pesquisa = driver.find_element("xpath", 
         '//div[contains(@class,"copyable-text selectable-text")]')
     time.sleep(2)
-    campo_pesquisa.click()
+    campo_pesquisa.send_keys(Keys.ENTER)
     campo_pesquisa.send_keys(contato)
     campo_pesquisa.send_keys(Keys.ENTER)
 
 def enviar_mensagem(mensagem):
-    campo_mensagem = driver.find_elements_by_xpath(
-        '//div[contains(@class,"copyable-text selectable-text")]')
-    campo_mensagem[1].click()
+    campo_mensagem = driver.find_element("xpath",
+        '//p[contains(@class,"selectable-text copyable-text")]')
+    campo_mensagem.send_keys(Keys.RETURN)
     time.sleep(1)
-    campo_mensagem[1].send_keys(str(mensagem))
-    campo_mensagem[1].send_keys(Keys.RETURN)
+    campo_mensagem.send_keys(str(mensagem))
+    time.sleep(1)
+    campo_mensagem.send_keys(Keys.RETURN)
+    time.sleep(1)
 
-def enviar_midia(midia):
-    driver.find_element_by_css_selector("span[data-icon='clip']").click()
-    attach = driver.find_element_by_css_selector("input[accept='*']")
-    attach.send_keys(midia)
-    time.sleep(2.5)
-    send = driver.find_element_by_css_selector("span[data-icon='send']")
-    send.click()
+# def enviar_midia(midia):
+#     driver.find_element_by_css_selector("span[data-icon='clip']").click()
+#     attach = driver.find_element_by_css_selector("input[accept='*']")
+#     attach.send_keys(midia)
+#     time.sleep(2.5)
+#     send = driver.find_element_by_css_selector("span[data-icon='send']")
+#     send.click()
 
 for contato in contatos:
     buscar_contato(contato)
     time.sleep(1)
-    enviar_midia(midia)
-    time.sleep(0.5)
+    # enviar_midia(midia)
+    # time.sleep(0.5)
     enviar_mensagem(mensagem)
